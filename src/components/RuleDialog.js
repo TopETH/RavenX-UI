@@ -76,7 +76,7 @@ export function RuleDialog(props) {
     };
 
     return (
-        <Dialog classes={classes.dialog} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} maxWidth="md">
+        <Dialog id={'rule'} className={classes.dialog} onClose={handleClose} aria-labelledby="dialog-title" open={open} maxWidth="md">
             <DialogTitle className={classes.title}>
                 <div className={classes.rubicfont}>Chase the Raven rules</div>
                 <IconButton size="small" aria-label="close" className={classes.closeButton} onClick={onClose}>

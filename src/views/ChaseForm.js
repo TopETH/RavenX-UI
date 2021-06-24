@@ -101,17 +101,14 @@ export default function ChaseForm(){
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    
-    const handleClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-
+    const [error, setError] = useState('');
+    const handleClose = () => {
       setOpen(false);
     };
     const { library, account, chainId } = useWeb3React();
     const status = useAppStatus();
-    const [amount, setAmout] = useState('')
+    const [enter, setEnter] = useState(false);
+    const [amount, setAmout] = useState('');
     const [balance, setBalance] = useState();   
     useEffect(()=>{
         try{
@@ -120,7 +117,7 @@ export default function ChaseForm(){
             })
         }
         catch(e){
-           
+           setError(e.msg)
         }
     }, [amount, account, library])
     
@@ -134,6 +131,7 @@ export default function ChaseForm(){
 
     const handleEnterChase = async ()=>{
         try{
+            setEnter(true);
             const overrides = {
                 value: ethers.utils.parseEther(amount)
             }
@@ -144,8 +142,15 @@ export default function ChaseForm(){
             dispatch(changeAppStaus(3))
         }
         catch(err){
+            console.log(err.code)
+            if(err.code==='UNPREDICTABLE_GAS_LIMIT'){
+                setError('Lottery game is not available now.')
+            }else{
+                setError(err.message)
+            }
             setOpen(true);
             dispatch(changeAppStaus(1))
+            setEnter(false);
         } 
     }
 
@@ -163,21 +168,22 @@ export default function ChaseForm(){
                         <span className={classes.inputLabel}>BNB</span>
                     </div>               
                 </div>
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{vertical:'top', horizontal:'center'}}>
+                    <Alert onClose={handleClose} severity="error">
+                        {error}
+                    </Alert>
+                </Snackbar>
             </div>
             {
                 parseFloat(balance)<=parseFloat(amount)?
                 <div style={{textTransform: 'none'}} className={  classes.disabledchaseButton } >Insufficient BNB balance</div>
                 :
-                amount!=='' && parseFloat(amount)!==0 && status!==2?
+                amount!=='' && parseFloat(amount)!==0 && status!==2 && !enter?
                 <Button style={{textTransform: 'none'}} className={  classes.chaseButton }  variant="contained" color="secondary" onClick={handleEnterChase}>Enter the chase</Button>
                 :
                 <div style={{textTransform: 'none'}} className={  classes.disabledchaseButton } >Enter the chase</div>
             }
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">
-                    Lottery game has ended!
-                </Alert>
-            </Snackbar>
+            
         </>
     )
 }

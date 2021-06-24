@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-import { blue } from '@material-ui/core/colors';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import LastChaserPanel from './LastChaserPanel';
@@ -16,10 +15,6 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { formatBalance } from '../utils/web3';
 
 const useStyles = makeStyles((theme)=>({
-    avatar: {
-        backgroundColor: blue[100],
-        color: blue[600],
-    },
     closeButton: {
         position: 'absolute',
         right: theme.spacing(1),
@@ -27,7 +22,6 @@ const useStyles = makeStyles((theme)=>({
         color: theme.palette.grey[500],
     },
     dialog: {
-        backgroundColor: "red",
         padding: 24,
     },
     col1:{
@@ -117,7 +111,7 @@ export function PreRoundDialog(props) {
     };
 
     return (
-        <Dialog classes={classes.dialog} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} maxWidth="md">
+        <Dialog id={'pre'} className={classes.dialog} onClose={handleClose} aria-labelledby="pre-dialog-title" open={open} maxWidth="md">
             <DialogTitle className={classes.title}>
                 <div className={classes.rubicfont}>Round {round} winners</div>
                 <IconButton size="small" aria-label="close" className={classes.closeButton} onClick={onClose}>
