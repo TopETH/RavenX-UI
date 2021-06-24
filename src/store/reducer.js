@@ -1,7 +1,7 @@
 import { Types } from './actions'
 
 const initialState = {
-  status: '', //1:ToEnter, 2:InEnter, 3:SuccessEnter
+  status: 1, //1:ToEnter, 2:InEnter, 3:SuccessEnter
   lotteryId: 0,
   candsOfWins: [],
   putins:[],

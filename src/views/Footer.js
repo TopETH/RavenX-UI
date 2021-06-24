@@ -1,14 +1,9 @@
 import { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { BigNumber } from '@ethersproject/bignumber';
-
 import { PreRoundDialog } from '../components/PreRoundDialog';
-import { LOTTERY_ADDRESS } from '../constants';
-import LOTTERY_ABI from '../constants/abis/Lottery.json';
-import { useContract, useWeb3React } from '../hooks';
+import { RuleDialog } from '../components/RuleDialog';
 import { useRound } from '../store/hooks';
-import { formatBalance } from '../utils/web3';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         height: 17,
         marginTop: 32,
         lineHeight: 1.4,
-        paddingBottom: 20
+
     },
     outlineBtn: {
         border: '2px solid #E32858',
@@ -42,43 +37,34 @@ export default function Footer(){
     const classes = useStyles();
     const round  = useRound();
     const [open, setOpen] = useState(false);
-    const [lastWinners, setLastWinners] = useState({});
-    const { chainId } = useWeb3React();
-    const contract = useContract(LOTTERY_ADDRESS[chainId], LOTTERY_ABI, false);
+    const [openR, setOpenR] = useState(false);
 
     const handlePrevRound = () => {
-        try{
-            contract.getLastLotteryInfo(parseInt(round)-1).then((res)=>{
-                console.log("getLastLotteryInfo")
-                console.log(res)
-                var timestamps = [];
-                var wons = [];
-                res[2].forEach(val => {
-                    timestamps.push(BigNumber.from(val).toNumber())
-                });
-                res[3].forEach(val => {
-                    wons.push(formatBalance(val))
-                });
-                setLastWinners({round: parseInt(round)-1, winners: res[0], timestamps: timestamps, wons: wons});
-                setOpen(true)
-            })
-        }
-        catch(e){
-            console.log(e)
-        }
+        setOpen(true)
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
+    const handleCloseR = () =>{
+        setOpenR(false);
+    }
+
+    const handleShowR = () =>{
+        setOpenR(true);
+    }
+
     return(
         <>
             <div className={classes.root}>
                 {round>1?<Button className={classes.outlineBtn} style={{textTransform: 'none'}} variant="outlined" color="secondary" onClick={handlePrevRound}>See round {round-1} winners</Button>:''}
-                <div className={classes.text}>Read more about game's rules</div>
+                <br></br>
+                <Button className={classes.text} style={{textTransform: 'none'}} onClick={handleShowR}>Read more about game's rules</Button>
+                <div style={{height: 5}}></div>
             </div>
-            <PreRoundDialog data={lastWinners} open={open} onClose={handleClose} />
+            <PreRoundDialog round={parseInt(round)-1} open={open} onClose={handleClose} />
+            <RuleDialog open={openR} onClose={handleCloseR} />
         </>
     )
 }

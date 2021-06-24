@@ -138,9 +138,9 @@ export default function ChaseForm(){
                 value: ethers.utils.parseEther(amount)
             }
             const tx = await contract.enter(overrides);
-            console.log(tx)
-            console.log(tx.hash)
             dispatch(sestLastTx(tx.hash))
+            dispatch(changeAppStaus(2))
+            await tx.wait(1)
             dispatch(changeAppStaus(3))
         }
         catch(err){

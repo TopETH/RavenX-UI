@@ -73,7 +73,7 @@ export default function ChasingPanel(){
                 {(
                    !active?
                    <Button style={{textTransform: 'none'}} className={classes.connectBtn} variant="contained"  color="secondary" onClick={handleConnect}>Connect wallet to enter the chase</Button>:
-                   status===3?<ChaseResult/>:<ChaseForm/>
+                   status===1?<ChaseForm/>:<ChaseResult/>
                 )}
             </StyledPaper>
         </div>

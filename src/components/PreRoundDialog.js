@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -9,6 +9,11 @@ import CloseIcon from '@material-ui/icons/Close';
 import LastChaserPanel from './LastChaserPanel';
 import { toSignificant} from '../utils/number';
 import { DialogContent } from '@material-ui/core';
+import { LOTTERY_ADDRESS } from '../constants';
+import LOTTERY_ABI from '../constants/abis/Lottery.json';
+import { useContract, useWeb3React } from '../hooks';
+import { BigNumber } from '@ethersproject/bignumber';
+import { formatBalance } from '../utils/web3';
 
 const useStyles = makeStyles((theme)=>({
     avatar: {
@@ -62,24 +67,50 @@ const useStyles = makeStyles((theme)=>({
 
 export function PreRoundDialog(props) {
     const classes = useStyles();
-    const { onClose, data, open } = props;
-    console.log(data)
-    var infos = [];
-    if(data.winners && data.winners.length>0){
-        for(var i = 0; i < (data.winners).length; i++){
-            var date = new Date(data.timestamps[i] * 1000);
-            // Hours part from the timestamp
-            var hours = date.getHours();
-            // Minutes part from the timestamp
-            var minutes = "0" + date.getMinutes();
-            // Seconds part from the timestamp
-            var seconds = "0" + date.getSeconds();
-            // Will display time in 10:30:23 format
-            var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-        
-            infos.push({id:i+1, address:data.winners[i], time:formattedTime, won:toSignificant(data.wons[i],2)});
+    const { onClose, round, open } = props;
+
+    const [infos, setInfos] = useState([]);
+    const { chainId } = useWeb3React();
+    const contract = useContract(LOTTERY_ADDRESS[chainId], LOTTERY_ABI, false);
+    useEffect(()=>{
+        try{
+            if(round>0)
+            contract.getLastLotteryInfo(round).then((res)=>{
+                console.log("getLastLotteryInfo")
+                console.log(res)
+                var timestamps = [];
+                var wons = [];
+                var winners = res[0];
+                var _infos = [];
+                res[2].forEach(val => {
+                    timestamps.push(BigNumber.from(val).toNumber())
+                });
+                res[3].forEach(val => {
+                    wons.push(formatBalance(val))
+                });
+                if(winners && winners.length>0){
+                    for(var i = 0; i < (winners).length; i++){
+                        var date = new Date(timestamps[i] * 1000);
+                        // Hours part from the timestamp
+                        var hours = date.getHours();
+                        // Minutes part from the timestamp
+                        var minutes = "0" + date.getMinutes();
+                        // Seconds part from the timestamp
+                        var seconds = "0" + date.getSeconds();
+                        // Will display time in 10:30:23 format
+                        var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+                    
+                        _infos.push({id:i+1, address:winners[i], time:formattedTime, won:toSignificant(wons[i],2)});
+                    }
+                }
+                setInfos(_infos)
+            })
         }
-    }
+        catch(e){
+            console.log(e)
+        }
+    },[contract, round])
+    
     
     const handleClose = () => {
         onClose();
@@ -88,7 +119,7 @@ export function PreRoundDialog(props) {
     return (
         <Dialog classes={classes.dialog} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open} maxWidth="md">
             <DialogTitle className={classes.title}>
-                <div className={classes.rubicfont}>Round {data.round} winners</div>
+                <div className={classes.rubicfont}>Round {round} winners</div>
                 <IconButton size="small" aria-label="close" className={classes.closeButton} onClick={onClose}>
                     <CloseIcon />
                 </IconButton>
@@ -113,5 +144,5 @@ export function PreRoundDialog(props) {
 PreRoundDialog.propTypes = {
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
-    data: PropTypes.object.isRequired,
+    round: PropTypes.number.isRequired,
 };

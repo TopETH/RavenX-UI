@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import { FaRegSmile } from '@react-icons/all-files/fa/FaRegSmile';
+import { FaSpinner } from '@react-icons/all-files/fa/FaSpinner';
 import { useWeb3React } from '@web3-react/core';
 
 import { NetScanUrlPrefix } from '../constants'
 import { changeAppStaus } from '../store/actions';
-import { useLastTx } from '../store/hooks'
+import { useLastTx, useAppStatus } from '../store/hooks'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,6 +26,13 @@ const useStyles = makeStyles((theme) => ({
         width: 40,
         height: 40,
         marginTop: 12
+    },
+    spinner:{
+        color: '#E32858',
+        width: 40,
+        height: 40,
+        marginTop: 12,
+        animation: 'spin 2s linear infinite'
     },
     message: {
         font: '16px/30px Rubik Regular',
@@ -73,6 +81,7 @@ export default function ChaseResult(){
     const classes = useStyles();
     const dispatch = useDispatch();
     const txHash = useLastTx();
+    const status = useAppStatus();
     const handleReEnter = ()=>{
         dispatch(changeAppStaus(1));
     }
@@ -82,9 +91,14 @@ export default function ChaseResult(){
     return(
         <>
             <div className={classes.root}>
-                <FaRegSmile className={classes.smile}/>
-                <div className={classes.message}>Transaction successful</div>
-                <div className={classes.greeting}>Thank you for entering the chase!</div>
+                {
+                    status===2?
+                    <FaSpinner className={classes.spinner}/>
+                    :
+                    <FaRegSmile className={classes.smile}/>
+                }
+                <div className={classes.message}>{status===2?"Transaction submitted":"Transaction successful"}</div>
+                <div className={classes.greeting}>{status===2?"Please wait for transaction confirmaton":"Thank you for entering the chase!"}</div>
                 <div className={classes.bscScan} onClick={handleView}>View on BSCSCAN</div>
             </div>
             <div className={classes.buttonWrapper}>

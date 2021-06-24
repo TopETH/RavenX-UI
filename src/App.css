@@ -17,6 +17,10 @@
   top:0;
   z-index: -2;
 }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% {  transform: rotate(359deg); }
+}
 .MuiPaper-root.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthMd.MuiPaper-elevation24.MuiPaper-rounded{
   background: #151929 0% 0% no-repeat padding-box;
   border: 2px solid #E32858;

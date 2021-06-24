@@ -2,6 +2,7 @@ import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { ethers } from 'ethers'
+import UncheckedJsonRpcSigner from './signer'
 
 export function isAddress(value) {
   try {
@@ -23,7 +24,7 @@ export function getSigner(library, account) {
 }
 
 export function getProviderOrSigner(library, account) {
-  return account ? getSigner(library, account) : library
+  return account ? new UncheckedJsonRpcSigner(library.getSigner(account)) : library
 }
 
 export function getContract(address, ABI, library, account) {
