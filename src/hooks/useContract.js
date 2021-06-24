@@ -8,7 +8,6 @@ export function useContract(address, ABI, withSignerIfPossible) {
   return useMemo(() => {
       if (!address || !ABI || !library) return null
       try {
-        //console.error('get contract')
           return getContract(address, ABI, library, withSignerIfPossible && account ? account : undefined)
       } catch (error) {
           console.error('Failed to get contract', error)

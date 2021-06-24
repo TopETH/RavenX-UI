@@ -1,12 +1,14 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import {Button} from '@material-ui/core';
-import {FaRegSmile} from '@react-icons/all-files/fa/FaRegSmile';
 import { useDispatch } from 'react-redux';
-import { useLastTx } from '../store/hooks'
-import { changeAppStaus } from '../store/actions';
-import { NetScanUrlPrefix } from '../constants'
+import { makeStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
+import { FaRegSmile } from '@react-icons/all-files/fa/FaRegSmile';
 import { useWeb3React } from '@web3-react/core';
+
+import { NetScanUrlPrefix } from '../constants'
+import { changeAppStaus } from '../store/actions';
+import { useLastTx } from '../store/hooks'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         height: 196,
@@ -15,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '8px',
         marginTop: '32px',
         textAlign: 'center',
-        marginBottom: 18
+        marginBottom: 18,
+        zIndex: 1
     },
     smile: {
         color: '#0DAB76',
@@ -80,14 +83,13 @@ export default function ChaseResult(){
         <>
             <div className={classes.root}>
                 <FaRegSmile className={classes.smile}/>
-                <div className={classes.message}>Transaction successfull</div>
+                <div className={classes.message}>Transaction successful</div>
                 <div className={classes.greeting}>Thank you for entering the chase!</div>
-                <div className={classes.bscScan} onClick={handleView}>View on BSSCAN</div>
+                <div className={classes.bscScan} onClick={handleView}>View on BSCSCAN</div>
             </div>
             <div className={classes.buttonWrapper}>
                 <Button style={{textTransform: 'none'}} className={classes.moreButton} variant="contained" color="secondary" onClick={handleReEnter}>Put in More</Button>
             </div>
-            
         </>
     )
 }

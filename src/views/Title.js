@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
         letterSpacing: '0px',
         color: '#FFFFFF',
         opacity: 1,
+        zIndex: 1
     },
     subtitle: {
         marginTop: 4,

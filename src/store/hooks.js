@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux'
 
-import { toSignificant } from '../utils/number'
-
+import { toSignificant} from '../utils/number'
 
 export function useAppStatus() {
   return useSelector(state => state.status)
@@ -16,13 +15,8 @@ export function useLastTx(){
   return useSelector(state => state.lastTx)
 }
 export function useJackPot() {
-  const willWins = useSelector(state => state.willWins);
-  var res = 0;
-  willWins.forEach(val => {
-     res = res + parseFloat(val);
-  });
-  
-  return toSignificant(res,2)
+  var jackpot = useSelector(state => state.jackpot);  
+  return toSignificant(jackpot,2)
 }
 export function useCombinedCands(){
   const candsOfWins = useSelector(state => state.candsOfWins);

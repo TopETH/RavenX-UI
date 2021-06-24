@@ -1,16 +1,14 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
+import { Button, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import '../raven.css';
-import logo from '../assets/img/logo.png';
-// import FiLogOut from 'react-icons/fi';
-import { displayAddress } from '../utils/web3';
-import signOutIcon from '../assets/img/sign-out.png';
-import {Button} from '@material-ui/core';
-import { useWeb3React } from '@web3-react/core'
-import {injected} from '../connectors'
+import { useWeb3React } from '@web3-react/core';
 
-// import SvgIcon from ''
+import logo from '../assets/img/logo.png';
+import signOutIcon from '../assets/img/sign-out.png';
+import {injected} from '../connectors'
+import '../raven.css';
+import { displayAddress } from '../utils/web3';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -20,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
     height: '32px',
     display: 'flex',
-    opacity: 1
+    opacity: 1,
+    zIndex: 1
   },
   exitIcon: {
     width: 16,
@@ -45,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     font: '16px/19px Rubik Regular',
     letterSpacing: '0px',
     color: '#FFFFFF'
+  },
+  logo:{
+    cursor: 'pointer'
   }
 }));
 
@@ -60,9 +62,14 @@ export default function Header() {
   const handleDisconnectClick = ()=>{
     deactivate();
   }
+
+  const handleGotoHomepage = ()=>{
+    document.location = "https://ravenxapi.xyz/"
+  }
+
   return (
     <div className={classes.root}>
-      <img src={logo} edge="start" alt="logo"/>
+      <img className={classes.logo} src={logo} edge="start" alt="logo" onClick={handleGotoHomepage}/>
       <div style={{flexGrow:1}}>
       </div>
       {
@@ -73,10 +80,9 @@ export default function Header() {
         {displayAddress(account)}
         </div>
         <IconButton color="inherit" style={{width:16}} edge="end" onClick={handleDisconnectClick}>
-          <img className={classes.exitIcon} src={signOutIcon} alt={""}/>
+          <img className={classes.exitIcon} src={signOutIcon} alt=" "/>
         </IconButton></>
       }
-       
     </div>
   );
 }

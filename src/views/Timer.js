@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import {useEndingTimestamp, useJackPot} from '../store/hooks'
+import React, { useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
-import {setLeftTimestamp} from '../store/actions';
+
+import { useEndingTimestamp, useJackPot } from '../store/hooks'
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '200px',
-        margin: 'auto'
+        margin: 'auto',
+        zIndex: 1
     },
     jackpot: {
         font: '16px/30px Rubik Regular',
@@ -46,40 +46,38 @@ export default function Timer(){
     const classes = useStyles();
     const jackpot = useJackPot();
     const endtimestamp = useEndingTimestamp();
-    const dispatch = useDispatch();
-    var sec = '00';
-    var min = '00';
-    var hour = '00';
-
-    if(endtimestamp>0){
-        sec = ('00' + (endtimestamp % 3600) % 60).slice(-2);
-        min = ('00' + (((endtimestamp-sec) / 60)) % 60).slice(-2);
-        hour = ('00' +   (endtimestamp-sec-min*60)/3600).slice(-2);
-    }
-
+    const [lefttime, setLefttime] = useState("00:00:00")
+    
     useEffect(()=>{
         const timer = setInterval(()=>{
-            dispatch(setLeftTimestamp(endtimestamp-1))
-                
+            var sec = '00';
+            var min = '00';
+            var hour = '00';
+            const nowtimestamp = parseInt(new Date().getTime()/1000)
+            if(endtimestamp-nowtimestamp>0){
+                sec = ('00' + ((endtimestamp-nowtimestamp) % 3600) % 60).slice(-2);
+                min = ('00' + ((((endtimestamp-nowtimestamp)-sec) / 60)) % 60).slice(-2);
+                hour = ('00' +   ((endtimestamp-nowtimestamp)-sec-min*60)/3600).slice(-2);
+                setLefttime(hour+":"+min+":"+sec)
+            }
         }, 1000)
         return () => {
             clearTimeout(timer)
         }
-        
-    });
+    }, [endtimestamp, setLefttime]);
 
     return(
         <div className={classes.root}>
             <div className={classes.jackpot}>{jackpot} BNB Jackpot</div>
             <div className={classes.timerTiles}>
-                <div className={classes.timeTile}>{hour.slice(0,1)}</div>
-                <div className={classes.timeTile}>{hour.slice(1,2)}</div>
+                <div className={classes.timeTile}>{(lefttime.split(':'))[0].slice(0,1)}</div>
+                <div className={classes.timeTile}>{(lefttime.split(':'))[0].slice(1,2)}</div>
                 :
-                <div className={classes.timeTile}>{min.slice(0,1)}</div>
-                <div className={classes.timeTile}>{min.slice(1,2)}</div>
+                <div className={classes.timeTile}>{(lefttime.split(':'))[1].slice(0,1)}</div>
+                <div className={classes.timeTile}>{(lefttime.split(':'))[1].slice(1,2)}</div>
                 :
-                <div className={classes.timeTile}>{sec.slice(0,1)}</div>
-                <div className={classes.timeTile}>{sec.slice(1,2)}</div>
+                <div className={classes.timeTile}>{(lefttime.split(':'))[2].slice(0,1)}</div>
+                <div className={classes.timeTile}>{(lefttime.split(':'))[2].slice(1,2)}</div>
             </div>
         </div>
     )

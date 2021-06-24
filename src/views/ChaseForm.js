@@ -1,16 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import NumberFormat from 'react-number-format';
-import {Button} from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { ethers } from 'ethers';
-import {useContract} from '../hooks/useContract';
-import LOTTERY_ABI from '../constants/abis/Lottery.json';
-import {LOTTERY_ADDRESS} from '../constants';
-import {useAppStatus} from '../store/hooks';
-import {changeAppStaus, sestLastTx } from '../store/actions';
+import { Button, Snackbar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import MuiAlert from '@material-ui/lab/Alert';
 import { useWeb3React } from '@web3-react/core';
-import {formatBalance}  from '../utils/web3';
+import { ethers } from 'ethers';
+import NumberFormat from 'react-number-format';
+
+import { LOTTERY_ADDRESS } from '../constants';
+import LOTTERY_ABI from '../constants/abis/Lottery.json';
+import { useContract } from '../hooks';
+import { changeAppStaus, sestLastTx } from '../store/actions';
+import { useAppStatus } from '../store/hooks';
+import { formatBalance }  from '../utils/web3';
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
         background: '#151929 0% 0% no-repeat padding-box',
         border: '1px solid #262B3E',
         borderRadius: '8px',
-        marginTop: '32px'
+        marginTop: '32px',
+        zIndex: 1
     },
     wrapper : {
         marginTop:12,
@@ -93,6 +100,15 @@ const useStyles = makeStyles((theme) => ({
 export default function ChaseForm(){
 
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
+    
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+
+      setOpen(false);
+    };
     const { library, account, chainId } = useWeb3React();
     const status = useAppStatus();
     const [amount, setAmout] = useState('')
@@ -101,13 +117,12 @@ export default function ChaseForm(){
         try{
             library.getBalance(account).then((bal)=>{
                 setBalance(formatBalance(bal, 18, 2));
-                console.log("balance=="+formatBalance(bal, 18, 2));
             })
         }
         catch(e){
-
+           
         }
-    }, [account, library, amount])
+    }, [amount, account, library])
     
     const contract = useContract(LOTTERY_ADDRESS[chainId], LOTTERY_ABI, true)
 
@@ -120,7 +135,6 @@ export default function ChaseForm(){
     const handleEnterChase = async ()=>{
         try{
             const overrides = {
-                // value: amount*(10**18),
                 value: ethers.utils.parseEther(amount)
             }
             const tx = await contract.enter(overrides);
@@ -130,14 +144,10 @@ export default function ChaseForm(){
             dispatch(changeAppStaus(3))
         }
         catch(err){
-            alert("Lottery game has ended.")
+            setOpen(true);
             dispatch(changeAppStaus(1))
-        }
-            
+        } 
     }
-    // const handleEnterChase = () => {
-    //     useEnterChase(amount);
-    // }
 
     return(
         <>
@@ -150,7 +160,6 @@ export default function ChaseForm(){
                         {
                             <NumberFormat value={amount} placeholder="0.00" className={classes.input}  decimalScale={2} onChange={handleInputChange} />
                         }
-                       
                         <span className={classes.inputLabel}>BNB</span>
                     </div>               
                 </div>
@@ -164,7 +173,11 @@ export default function ChaseForm(){
                 :
                 <div style={{textTransform: 'none'}} className={  classes.disabledchaseButton } >Enter the chase</div>
             }
-            
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    Lottery game has ended!
+                </Alert>
+            </Snackbar>
         </>
     )
 }

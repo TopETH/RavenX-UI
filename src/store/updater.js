@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { update } from './actions'
-import LOTTERY_ABI from '../constants/abis/Lottery.json'
-import { LOTTERY_ADDRESS } from '../constants'
-import { useContract } from '../hooks/useContract'
 import { BigNumber } from '@ethersproject/bignumber'
+
+import { update } from './actions'
+
+import { LOTTERY_ADDRESS } from '../constants'
+import LOTTERY_ABI from '../constants/abis/Lottery.json'
 import { formatBalance } from '../utils/web3'
-import { useWeb3React } from '@web3-react/core';
+import { useContract, useWeb3React } from '../hooks'
 
 export default function Updater() {
     const { chainId } = useWeb3React();
@@ -28,19 +29,18 @@ export default function Updater() {
                 willWins.push(formatBalance(val))
             });
             var lotteryId = BigNumber.from(res[0]).toNumber()
-            var currentState = BigNumber.from(res[2]).toNumber()
+            var jackpot = formatBalance(res[7])
             var endingTimestamp = BigNumber.from(res[1]).toNumber()
-            console.log({lotteryId, currentState,  cands: res[3], putins, timestamps, willWins, endingTimestamp})
+            console.log({lotteryId, cands: res[3], putins, timestamps, willWins, endingTimestamp, jackpot})
     
             dispatch(update({ lotteryId:lotteryId,
-                currentState:currentState, 
                 candsOfWins:res[3], 
                 putins:putins, 
                 timestamps:timestamps, 
                 willWins:willWins, 
-                endingTimestamp:endingTimestamp}))
+                endingTimestamp:endingTimestamp,
+                jackpot:jackpot}))
         }
-
         try{
             contract.getLotteryStatus().then((results)=>dispatchResults(results))
             console.log("updated")

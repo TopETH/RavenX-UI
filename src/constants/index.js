@@ -10,3 +10,5 @@ export const NetScanUrlPrefix = {
   56: "https://bscscan.com/tx/",
   97: "https://testnet.bscscan.com/tx/"
 }
+
+export const NetworkContextName = 'NETWORK'

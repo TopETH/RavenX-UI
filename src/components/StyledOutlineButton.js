@@ -5,7 +5,6 @@ import Button from '@material-ui/core/Button';
 const MyButton = styled(Button)({
     border: '2px solid #E32858',
     borderRadius: '8px',
-    // textAlign: center;
     font: "16px/19px Rubik Regular",
     letterSpacing: '0px',
     color: '#F2F3F5',

@@ -1,19 +1,23 @@
 import React from 'react';
-import StyledPaper from '../components/StyledPaper';
+import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Timer from './Timer';
+import { useWeb3React } from '@web3-react/core'
+
+import StyledPaper from '../components/StyledPaper';
+import { injected } from '../connectors'
+import { useAppStatus, useRound } from '../store/hooks'
+
 import ChaseForm from './ChaseForm';
 import ChaseResult from './ChaseResult';
-import {Button} from '@material-ui/core';
-import { useWeb3React } from '@web3-react/core'
-import {useAppStatus, useRound} from '../store/hooks'
-import {injected} from '../connectors'
+import Timer from './Timer';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         marginTop:8,
         padding: 24,
         position: 'relative',
-        textAlign: 'center'
+        textAlign: 'center',
+        zIndex: 1
       },
     paper: {
         padding: 24,
@@ -55,7 +59,6 @@ export default function ChasingPanel(){
     const classes = useStyles();
     const { activate, active } = useWeb3React()
     const round = useRound();
-    // const [newChase, setNewChase] = useState(true);
     const status = useAppStatus();
 
     const handleConnect = ()=>{
@@ -71,10 +74,7 @@ export default function ChasingPanel(){
                    !active?
                    <Button style={{textTransform: 'none'}} className={classes.connectBtn} variant="contained"  color="secondary" onClick={handleConnect}>Connect wallet to enter the chase</Button>:
                    status===3?<ChaseResult/>:<ChaseForm/>
-                   
-
                 )}
-                
             </StyledPaper>
         </div>
     

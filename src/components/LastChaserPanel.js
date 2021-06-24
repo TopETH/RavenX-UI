@@ -10,15 +10,15 @@ const useStyles = makeStyles((theme) => ({
         marginTop:8,
         paddingLeft: '5%',
         paddingRight: '5%',
-        background: '#151929 0% 0% no-repeat padding-box',
+        background: '#1E2335 0% 0% no-repeat padding-box',
         borderRadius: '5px',
         height: 62,
-        minWidth:"220px",
+        minWidth:"180px",
         zIndex: 2,
         display: 'flex'
       },
     col1:{
-        width: "12%",
+        width: "15%",
         textAlign: "left",
         color: '#E32858',
         alignSelf: 'center',
@@ -28,24 +28,13 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     col2:{
-        width: "35%",
+        width: "45%",
         textAlign: "left",
         alignSelf: 'center',
     },
+
     col3:{
-        width: "26%",
-        textAlign: "right",
-        font: '14px/30px Rubik Regular',
-        letterSpacing: '0px',
-        color: '#F2F3F5',
-        alignSelf: 'center',
-        paddingLeft: 5,
-        [theme.breakpoints.up('md')]: {
-            font: '16px/30px Rubik Regular',
-        },
-    },
-    col4:{
-        width: "27%",
+        width: "40%",
         paddingLeft: 5,
         textAlign: "right",
         font: '14px/30px Rubik Regular',
@@ -76,18 +65,18 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('md')]: {
             font: '14px/26px Rubik Regular',
         },
-    }
+
+}
 
 
 }));
-export default function ChaserPanel(props){
+export default function LastChaserPanel(props){
     const classes = useStyles();
     const { account } = useWeb3React();
     const id = props.chaserInfo['id'];
     const address = props.chaserInfo['address'];
     const time = props.chaserInfo['time'];
-    const putIn = props.chaserInfo['putin'];
-    const willIn = props.chaserInfo['willwin'];
+    const willIn = props.chaserInfo['won'];
     return(
         <div className={classes.root} style={account===address?{border: "1px solid #E32858"}:address===AddressZero?{display:'none'}:{}}>
             <span className={classes.col1}>{id===1?'1st': id===2?'2nd': id===3?'3rd':'4th'}</span>
@@ -101,8 +90,7 @@ export default function ChaserPanel(props){
                 </div>
                 
             </span>
-            <span className={classes.col3}>{putIn} BNB</span>
-            <span className={classes.col4}>{willIn} BNB</span>
+            <span className={classes.col3}>{willIn} BNB</span>
         </div>
     )
 }

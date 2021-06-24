@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+
 import ChaserPanel from '../components/ChaserPanel';
-import {useCombinedCands} from '../store/hooks';
+import { useCombinedCands } from '../store/hooks';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -9,7 +10,8 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: 24,
         paddingRight: 24,
         position: 'relative',
-        paddingBottom: 12
+        paddingBottom: 12,
+        zIndex: 1
       },
     label:{
         textAlign: 'center',

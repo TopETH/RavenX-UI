@@ -2,12 +2,6 @@ import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
 import { ethers } from 'ethers'
-// import { SUPPORTED_CHAINIDS } from '../constants'
-// import BEP20_ABI from '../assets/contracts/bep20_abi.json'
-
-// export const isRightNetwork = (chainId) => {
-//   return SUPPORTED_CHAINIDS.includes(chainId)
-// }
 
 export function isAddress(value) {
   try {
@@ -39,32 +33,6 @@ export function getContract(address, ABI, library, account) {
 
   return new Contract(address, ABI, getProviderOrSigner(library, account))
 }
-
-// export async function getBalance(address, token, library) {
-//   try {
-//     if(!isAddress(token) || token === AddressZero) {
-//       return await library.getBalance(address)
-//     }
-//     const contract = getContract(token, BEP20_ABI, library)
-//     return await contract.balanceOf(address)
-//   } catch(e) {
-//     console.log(e)
-//   }
-//   return 0
-// }
-
-// export async function getAllowance(address, spender, token, library) {
-//   try {
-//     if(!isAddress(token) || token === AddressZero) {
-//       throw Error(`Invalid 'token' parameter '${token}'.`)
-//     }
-//     const contract = getContract(token, BEP20_ABI, library)
-//     return await contract.allowance(address, spender)
-//   } catch(e) {
-//     console.log(e)
-//   }
-//   return 0
-// }
 
 export const formatBalance = (value, decimals = 18, maxFraction = 0) => {
   try {

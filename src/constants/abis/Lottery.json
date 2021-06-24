@@ -268,7 +268,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "_leftTimestamp",
+        "name": "_endingTimestamp",
         "type": "uint256"
       },
       {
@@ -283,7 +283,7 @@
       },
       {
         "internalType": "uint256[]",
-        "name": "_putins",
+        "name": "_putIns",
         "type": "uint256[]"
       },
       {
@@ -295,6 +295,11 @@
         "internalType": "uint256[]",
         "name": "_willWins",
         "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_balanceOfPrizePool",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -315,6 +320,46 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "getLastLotteryInfo",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "_winners",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_putIns",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_timestamps",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_winsAmounts",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_endTimestamp",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
