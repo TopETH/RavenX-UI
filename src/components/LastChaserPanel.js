@@ -86,7 +86,7 @@ export default function LastChaserPanel(props){
                 </div>
                 <div className={classes.clock}>
                     <AiOutlineClockCircle/>
-                    <div style={{marginLeft:8, lineHeight:1.2}}>{time}</div>
+                    <div style={{marginLeft:8, lineHeight:1.0}}>{time}</div>
                 </div>
                 
             </span>
