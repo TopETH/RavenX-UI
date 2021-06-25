@@ -69,9 +69,7 @@ export function PreRoundDialog(props) {
     useEffect(()=>{
         try{
             if(round>0)
-            contract.getLastLotteryInfo(round).then((res)=>{
-                console.log("getLastLotteryInfo")
-                console.log(res)
+            contract.getLastLotteryInfo().then((res)=>{
                 var timestamps = [];
                 var wons = [];
                 var winners = res[0];

@@ -322,13 +322,7 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      }
-    ],
+    "inputs": [],
     "name": "getLastLotteryInfo",
     "outputs": [
       {
@@ -350,11 +344,6 @@
         "internalType": "uint256[]",
         "name": "_winsAmounts",
         "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_endTimestamp",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -461,7 +450,7 @@
         "type": "address"
       }
     ],
-    "name": "sendThisMarketing",
+    "name": "sendToThisMarketing",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

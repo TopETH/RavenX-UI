@@ -142,6 +142,7 @@ export default function ChaseForm(){
             dispatch(changeAppStaus(3))
         }
         catch(err){
+            console.log(err)
             console.log(err.code)
             if(err.code==='UNPREDICTABLE_GAS_LIMIT'){
                 setError('Lottery game is not available now.')
