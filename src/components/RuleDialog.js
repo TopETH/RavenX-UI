@@ -64,7 +64,13 @@ const useStyles = makeStyles((theme)=>({
         letterSpacing: '0px',
         color: '#F2F3F5',
         marginTop: 24,
-    }
+    },
+    labelBottom:{
+        font: '14px/20px Rubik Regular',
+        color: '#B1B6C3',
+        textAlign: 'center',
+        marginTop: 24
+    },
 }));
 
 export function RuleDialog(props) {
@@ -85,22 +91,28 @@ export function RuleDialog(props) {
             </DialogTitle>
             <DialogContent style={{padding:24, paddingTop:20}}>
                 <Typography className={classes.typo} gutterBottom>
-                    1. Each round starts with 2 hours countdown
+                    1. Each round starts with 3 hours countdown.
                 </Typography>
                 <Typography className={classes.typo} gutterBottom>
-                    2. Each bid adds 5 seconds to the clock
+                    2. Each bid adds 5 seconds to the clock.
                 </Typography>
                 <Typography className={classes.typo} gutterBottom>
-                    3. The last 4 chasers are sharing the jackpot when countdown is over
+                    3. Maximum time of the round is set to 5 hours.
                 </Typography>
                 <Typography className={classes.typo} gutterBottom>
-                    4. Jackpot is divided proportionally to bidded amount
+                    4. The last 4 chasers are sharing the jackpot when countdown is over.
                 </Typography>
                 <Typography className={classes.typo} gutterBottom>
-                    5. First place winner gets additional winning bonus
+                    5. Jackpot is divided proportionally to bidded amount. The more you bid, the more you win.
                 </Typography>
-                <Typography className={classes.typo} style={{textAlign: 'center', paddingTop:10, marginBottom:6}} paragraph>
-                    Each transaction is split:
+                <Typography className={classes.typo} gutterBottom>
+                    6. Multiple bids in one round are summarized. You are not wasting money by bidding early.
+                </Typography>
+                <Typography className={classes.typo} gutterBottom>
+                    7. First place winner gets additional winning bonus.
+                </Typography>
+                <Typography className={classes.rubicfont} style={{textAlign: 'center', paddingTop:10, marginBottom:6}} paragraph>
+                    Each bid transaction is split:
                 </Typography>
 
                 <div className={classes.panel} >
@@ -116,6 +128,9 @@ export function RuleDialog(props) {
                         <div className={classes.percent}>20%</div>
                         <div className={classes.label}>marketing funds</div>
                     </div>
+                </div>
+                <div className={classes.labelBottom}>
+                    Split details and rules are subject to change
                 </div>
                 <div style={{textAlign:'center'}}>
                     <Button style={{textTransform: 'none'}} className={classes.btn} variant="contained"  color="secondary" onClick={handleClose}>I understand the rules</Button>
