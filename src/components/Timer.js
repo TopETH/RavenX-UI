@@ -44,7 +44,7 @@ export default function Timer(props){
             var min = '00';
             var hour = '00';
             const nowtimestamp = parseInt(new Date().getTime()/1000)
-            if(endtimestamp-nowtimestamp>0){
+            if(endtimestamp-nowtimestamp>=0){
                 sec = ('00' + ((endtimestamp-nowtimestamp) % 3600) % 60).slice(-2);
                 min = ('00' + ((((endtimestamp-nowtimestamp)-sec) / 60)) % 60).slice(-2);
                 hour = ('00' +   ((endtimestamp-nowtimestamp)-sec-min*60)/3600).slice(-2);
