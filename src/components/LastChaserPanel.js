@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
         background: '#1E2335 0% 0% no-repeat padding-box',
         borderRadius: '5px',
         height: 62,
-        minWidth:"180px",
         zIndex: 2,
         display: 'flex'
       },

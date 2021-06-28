@@ -91,7 +91,7 @@ export function RuleDialog(props) {
             </DialogTitle>
             <DialogContent style={{padding:24, paddingTop:20}}>
                 <Typography className={classes.typo} gutterBottom>
-                    1. Each round starts with 3 hours countdown.
+                    1. Each round starts with a 3 hours countdown.
                 </Typography>
                 <Typography className={classes.typo} gutterBottom>
                     2. Each bid adds 5 seconds to the clock.

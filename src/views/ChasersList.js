@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { useRound } from '../store/hooks';
 import ChaserPanel from '../components/ChaserPanel';
 import { useCombinedCands } from '../store/hooks';
+import { PreRoundDialog } from '../components/PreRoundDialog';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: 24,
         position: 'relative',
         paddingBottom: 12,
-        zIndex: 1
+        zIndex: 1,
+        textAlign: 'center',
       },
     label:{
         textAlign: 'center',
@@ -49,12 +52,31 @@ const useStyles = makeStyles((theme) => ({
     col4:{
         width: "27%",
         textAlign: "right"
+    },
+    outlineBtn: {
+        border: '2px solid #E32858',
+        borderRadius: '8px',
+        font: "16px/19px Rubik Regular",
+        letterSpacing: '0px',
+        color: '#F2F3F5',
+        height: 40,
+        width: 190,
+        marginTop: 32,
     }
 
 }));
 export default function ChasersList(){
     const classes = useStyles();
     const chasers = useCombinedCands();
+    const round  = useRound();
+    const [open, setOpen] = useState(false);
+    const handlePrevRound = () => {
+        setOpen(true)
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return(
     <div className={classes.root} style={chasers.length===0?{display:'none'}:{}}>
         <div className={classes.label}>Last 4 chasers</div>
@@ -69,6 +91,8 @@ export default function ChasersList(){
                 return (<ChaserPanel key={info['id']} chaserInfo={info}/>)
             })
         }
+        {round>1?<Button className={classes.outlineBtn} style={{textTransform: 'none'}} variant="outlined" color="secondary" onClick={handlePrevRound}>See round {round-1} winners</Button>:''}
+        <PreRoundDialog round={parseInt(round)-1} open={open} onClose={handleClose} />
     </div>
     )
 }

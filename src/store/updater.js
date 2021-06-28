@@ -31,9 +31,11 @@ export default function Updater() {
             var lotteryId = BigNumber.from(res[0]).toNumber()
             var jackpot = formatBalance(res[7])
             var endingTimestamp = BigNumber.from(res[1]).toNumber()
-            console.log({lotteryId, cands: res[3], putins, timestamps, willWins, endingTimestamp, jackpot})
+            var lotteryStatus = BigNumber.from(res[2]).toNumber()
+            console.log({lotteryId, lotteryStatus, cands: res[3], putins, timestamps, willWins, endingTimestamp, jackpot})
     
             dispatch(update({ lotteryId:lotteryId,
+                lotteryStatus:lotteryStatus,
                 candsOfWins:res[3], 
                 putins:putins, 
                 timestamps:timestamps, 

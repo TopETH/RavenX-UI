@@ -19,9 +19,9 @@ const setLeftTimestamp = (left) =>({
   payload: left
 })
 
-const update = ({lotteryId, candsOfWins, putins, timestamps, willWins, endingTimestamp, jackpot}) => ({
+const update = ({lotteryId, lotteryStatus, candsOfWins, putins, timestamps, willWins, endingTimestamp, jackpot}) => ({
   type: Types.UPDATE,
-  payload: {lotteryId, candsOfWins, putins, timestamps, willWins, endingTimestamp, jackpot}
+  payload: {lotteryId, lotteryStatus, candsOfWins, putins, timestamps, willWins, endingTimestamp, jackpot}
 }) 
 
 

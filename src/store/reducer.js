@@ -3,6 +3,7 @@ import { Types } from './actions'
 const initialState = {
   status: 1, //1:ToEnter, 2:InEnter, 3:SuccessEnter
   lotteryId: 0,
+  lotteryStatus: 1,
   candsOfWins: [],
   putins:[],
   timestamps:[],
@@ -24,8 +25,9 @@ const reducer = (state = initialState, action) => {
       newState.endingTimestamp = action.payload
       break
     case Types.UPDATE:
-      const {lotteryId, candsOfWins, putins, timestamps, willWins, endingTimestamp, jackpot} = action.payload;
+      const {lotteryId, lotteryStatus, candsOfWins, putins, timestamps, willWins, endingTimestamp, jackpot} = action.payload;
       newState.lotteryId = lotteryId
+      newState.lotteryStatus = lotteryStatus
       newState.candsOfWins = candsOfWins
       newState.putins = putins
       newState.timestamps = timestamps

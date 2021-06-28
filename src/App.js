@@ -1,11 +1,6 @@
 import trees from './assets/svg/trees.svg';
 import './App.css';
-import ChasersList from './views/ChasersList';
-import ChasingPanel from './views/ChasingPanel';
-import Header from './views/Header';
-import Footer from './views/Footer';
 import Container from '@material-ui/core/Container';
-import Title from './views/Title';
 import configureStore from './store';
 import Updater from './store/updater';
 import Web3ReactManager from './components/Web3ReactManager';
@@ -13,6 +8,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 import { NetworkContextName } from './constants'
 import { Web3ReactProvider, createWeb3ReactRoot } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
+import Main from './views';
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
@@ -33,11 +29,7 @@ function App() {
             <Container style={{maxWidth: "590px"}}>
               <Web3ReactManager>
                 <Updater/>
-                <Header/>
-                <Title/>
-                <ChasingPanel/>
-                <ChasersList/>
-                <Footer/>
+                  <Main/>
               </Web3ReactManager> 
             </Container>
             <img src={trees} className="trees" alt="trees"/>

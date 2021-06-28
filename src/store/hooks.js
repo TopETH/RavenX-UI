@@ -5,19 +5,28 @@ import { toSignificant} from '../utils/number'
 export function useAppStatus() {
   return useSelector(state => state.status)
 }
+
 export function useEndingTimestamp() {
   return useSelector(state => state.endingTimestamp)
 }
+
 export function useRound() {
   return useSelector(state => state.lotteryId)
 }
+
+export function useLotteryStatus(){
+  return useSelector(state => state.lotteryStatus);
+}
+
 export function useLastTx(){
   return useSelector(state => state.lastTx)
 }
+
 export function useJackPot() {
   var jackpot = useSelector(state => state.jackpot);  
   return toSignificant(jackpot,2)
 }
+
 export function useCombinedCands(){
   const candsOfWins = useSelector(state => state.candsOfWins);
   const putins = useSelector(state => state.putins);

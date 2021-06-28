@@ -30,3 +30,14 @@ export function formatDecimal(val, decimal){
     return val
   }
 }
+export function utcformat(d){
+  d= new Date(d);
+  var tail= ' UTC', T= [d.getUTCHours(), d.getUTCMinutes()];
+  var D = d.toUTCString().split(" ");
+  var i= 2;
+  while(i){
+      --i;
+      if(T[i]<10) T[i]= '0'+T[i];
+  }
+  return D[0]+ ' ' + D[1] +' '+ D[2] + ' ' +T.join(':')+ tail;
+}

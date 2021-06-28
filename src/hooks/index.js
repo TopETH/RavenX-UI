@@ -5,6 +5,11 @@ import { isMobile } from 'react-device-detect'
 import { injected } from '../connectors'
 import { NetworkContextName } from '../constants'
 import { getContract } from '../utils/web3'
+import { LOTTERY_ADDRESS } from '../constants';
+import LOTTERY_ABI from '../constants/abis/Lottery.json';
+import { BigNumber } from '@ethersproject/bignumber';
+import { formatBalance } from '../utils/web3';
+import { toSignificant} from '../utils/number';
 
 export function useWeb3React() {
   const context = useWeb3ReactCore()
@@ -102,6 +107,48 @@ export function useContract(address, ABI, withSignerIfPossible = true) {
       return null
     }
   }, [address, ABI, library, withSignerIfPossible, account])
+}
+
+export function useLastRoundInfo(){
+  const [infos, setInfos] = useState(null);
+  const { chainId } = useWeb3React();
+  const contract = useContract(LOTTERY_ADDRESS[chainId], LOTTERY_ABI, false);
+  useEffect(()=>{
+      try{
+          contract.getLastLotteryInfo().then((res)=>{
+              var timestamps = [];
+              var wons = [];
+              var winners = res[0];
+              var _infos = [];
+              res[2].forEach(val => {
+                  timestamps.push(BigNumber.from(val).toNumber())
+              });
+              res[3].forEach(val => {
+                  wons.push(formatBalance(val))
+              });
+              if(winners && winners.length>0){
+                  for(var i = 0; i < (winners).length; i++){
+                      var date = new Date(timestamps[i] * 1000);
+                      // Hours part from the timestamp
+                      var hours = date.getHours();
+                      // Minutes part from the timestamp
+                      var minutes = "0" + date.getMinutes();
+                      // Seconds part from the timestamp
+                      var seconds = "0" + date.getSeconds();
+                      // Will display time in 10:30:23 format
+                      var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+                  
+                      _infos.push({id:i+1, address:winners[i], time:formattedTime, won:toSignificant(wons[i],2)});
+                  }
+              }
+              setInfos(_infos) ;
+          })
+      }
+      catch(e){
+        
+      }
+  })
+  return infos
 }
 
 

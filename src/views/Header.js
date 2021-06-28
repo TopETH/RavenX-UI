@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0px 3px 6px #E328584D',
     borderRadius: '8px',
     height: 40,
+    width: 70,
+    [theme.breakpoints.up('md')]: {
+            width: 150,
+        },
     font: '16px/19px Rubik Regular',
     letterSpacing: '0px',
     color: '#FFFFFF'

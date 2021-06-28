@@ -1,23 +1,13 @@
 import React, { useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { useEndingTimestamp, useJackPot } from '../store/hooks'
-
 const useStyles = makeStyles((theme) => ({
-    root: {
+    container: {
         width: '200px',
         margin: 'auto',
         zIndex: 1
     },
-    jackpot: {
-        font: '16px/30px Rubik Regular',
-        letterSpacing: '0px',
-        color: '#F2F3F5',
-        textAlign: 'center',
-        height: '19px',
-        lineHeight: 1.3,
-        marginBottom: '8px'
-    },
+
     timeTile:{
         width: '28px',
         height: '35px',
@@ -42,10 +32,10 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-export default function Timer(){
+export default function Timer(props){
     const classes = useStyles();
-    const jackpot = useJackPot();
-    const endtimestamp = useEndingTimestamp();
+
+    const endtimestamp = props.endTimestamp;
     const [lefttime, setLefttime] = useState("00:00:00")
     
     useEffect(()=>{
@@ -67,8 +57,8 @@ export default function Timer(){
     }, [endtimestamp, setLefttime]);
 
     return(
-        <div className={classes.root}>
-            <div className={classes.jackpot}>{jackpot} BNB Jackpot</div>
+        <div className={classes.container}>
+            
             <div className={classes.timerTiles}>
                 <div className={classes.timeTile}>{(lefttime.split(':'))[0].slice(0,1)}</div>
                 <div className={classes.timeTile}>{(lefttime.split(':'))[0].slice(1,2)}</div>

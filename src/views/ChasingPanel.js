@@ -5,11 +5,11 @@ import { useWeb3React } from '@web3-react/core'
 
 import StyledPaper from '../components/StyledPaper';
 import { injected } from '../connectors'
-import { useAppStatus, useRound } from '../store/hooks'
-
+import { useAppStatus, useRound, useJackPot } from '../store/hooks'
+import { useEndingTimestamp } from '../store/hooks'
 import ChaseForm from './ChaseForm';
 import ChaseResult from './ChaseResult';
-import Timer from './Timer';
+import Timer from '../components/Timer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,6 +19,15 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
         zIndex: 1
       },
+    jackpot: {
+        font: '16px/30px Rubik Regular',
+        letterSpacing: '0px',
+        color: '#F2F3F5',
+        textAlign: 'center',
+        height: '19px',
+        lineHeight: 1.3,
+        marginBottom: '8px'
+    },
     paper: {
         padding: 24,
         minWidth:"220px",
@@ -60,6 +69,8 @@ export default function ChasingPanel(){
     const { activate, active } = useWeb3React()
     const round = useRound();
     const status = useAppStatus();
+    const jackpot = useJackPot();
+    const endtimestamp = useEndingTimestamp();
 
     const handleConnect = ()=>{
         activate(injected)
@@ -69,7 +80,8 @@ export default function ChasingPanel(){
         <div className={classes.root}>
             <div className={classes.badgeBox}>Round {round}</div>
             <StyledPaper className={classes.paper}>
-                <Timer/>
+                <div className={classes.jackpot}>{jackpot} BNB Jackpot</div>
+                <Timer endTimestamp = {endtimestamp}/>
                 {(
                    !active?
                    <Button style={{textTransform: 'none'}} className={classes.connectBtn} variant="contained"  color="secondary" onClick={handleConnect}>Connect wallet to enter the chase</Button>:
