@@ -16,7 +16,7 @@ const RPC_URLS = {
     };
 export const network = new NetworkConnector({
   urls: { 3: RPC_URLS[3], 56: RPC_URLS[56], 97: RPC_URLS[97]},
-  defaultChainId: 3,
+  defaultChainId: process.env.REACT_APP_DEFAULT_CHAIN_ID,
   pollingInterval: POLLING_INTERVAL
 })
 
