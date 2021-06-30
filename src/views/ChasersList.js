@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
         letterSpacing: '0px',
         color: '#F2F3F5',
         height: 40,
-        width: 190,
         marginTop: 32,
     }
 
@@ -91,7 +90,7 @@ export default function ChasersList(){
                 return (<ChaserPanel key={info['id']} chaserInfo={info}/>)
             })
         }
-        {round>1?<Button className={classes.outlineBtn} style={{textTransform: 'none'}} variant="outlined" color="secondary" onClick={handlePrevRound}>See round {round-1} winners</Button>:''}
+        {round>1?<Button className={classes.outlineBtn} style={{textTransform: 'none'}} variant="outlined"  onClick={handlePrevRound}>See round {round-1} winners</Button>:''}
         <PreRoundDialog round={parseInt(round)-1} open={open} onClose={handleClose} />
     </div>
     )

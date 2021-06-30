@@ -50,6 +50,9 @@ export default function Timer(props){
                 hour = ('00' +   ((endtimestamp-nowtimestamp)-sec-min*60)/3600).slice(-2);
                 setLefttime(hour+":"+min+":"+sec)
             }
+            else{
+                setLefttime("00:00:00")
+            }
         }, 1000)
         return () => {
             clearTimeout(timer)
