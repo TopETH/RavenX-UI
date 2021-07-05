@@ -108,20 +108,17 @@ export function RuleDialog(props) {
                 <Typography className={classes.typo} gutterBottom>
                     6. Multiple bids in one round are summarized. You are not wasting money by bidding early.
                 </Typography>
-                <Typography className={classes.typo} gutterBottom>
-                    7. First place winner gets additional winning bonus.
-                </Typography>
                 <Typography className={classes.rubicfont} style={{textAlign: 'center', paddingTop:10, marginBottom:6}} paragraph>
                     Each bid transaction is split:
                 </Typography>
 
                 <div className={classes.panel} >
                     <div className={classes.item}>
-                        <div className={classes.percent}>40%</div>
+                        <div className={classes.percent}>60%</div>
                         <div className={classes.label}>current round</div>
                     </div>
                     <div className={classes.item}>
-                        <div className={classes.percent}>40%</div>
+                        <div className={classes.percent}>20%</div>
                         <div className={classes.label}>next round</div>
                     </div>
                     <div className={classes.item}>
